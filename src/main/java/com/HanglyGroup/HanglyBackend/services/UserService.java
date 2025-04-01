@@ -50,6 +50,7 @@ public class UserService {
         userRepository.save(user);
     }
 
+
     @Transactional
     public void deleteUser(Long userId){
         User user = userRepository.findById(userId).orElseThrow(UserNotFoundException::new);

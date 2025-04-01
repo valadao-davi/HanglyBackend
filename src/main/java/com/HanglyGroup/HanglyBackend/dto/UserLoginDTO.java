@@ -1,4 +1,4 @@
 package com.HanglyGroup.HanglyBackend.dto;
 
-public class UserLoginDTO {
+public record UserLoginDTO(String email, String password){
 }
