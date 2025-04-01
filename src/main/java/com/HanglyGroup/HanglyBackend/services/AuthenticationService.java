@@ -28,10 +28,12 @@ public class AuthenticationService {
     private TokenService tokenService;
 
     public String login(UserLoginDTO userLoginDTO){
-        var userEmailPassword = new UsernamePasswordAuthenticationToken(userLoginDTO.email(), userLoginDTO.password());
-        var auth = authenticationManager.authenticate(userEmailPassword);
+        var userNamePassword = new UsernamePasswordAuthenticationToken(userLoginDTO.email(),userLoginDTO.password());
+       // ERRO AQUI
+        var auth = authenticationManager.authenticate(userNamePassword);
+        String token = tokenService.generateToken((User) auth.getPrincipal());
+        return token;
 
-        return tokenService.generateToken((User) auth.getPrincipal());
     }
 
     public void register(UserCreateDTO userCreateDTO){

@@ -1,4 +1,4 @@
 package com.HanglyGroup.HanglyBackend.dto;
 
-public class LoginResponseDTO {
+public record LoginResponseDTO(String token) {
 }

@@ -21,6 +21,7 @@ public class TokenService {
 
     public String generateToken(User user){
         try {
+            System.out.println("Generating token for user: " + user.getEmail());
             Algorithm algorithm = Algorithm.HMAC256(secret);
             return JWT.create()
                     .withIssuer("auth-hanglybackend")
@@ -28,6 +29,7 @@ public class TokenService {
                     .withExpiresAt(generateExpirationDate())
                     .sign(algorithm);
         }catch (JWTCreationException e) {
+            System.out.println("Occuredd an error creating token");
             throw new JWTErrorException();
         }
     }
