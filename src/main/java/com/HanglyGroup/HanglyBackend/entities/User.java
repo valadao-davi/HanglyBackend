@@ -1,5 +1,6 @@
 package com.HanglyGroup.HanglyBackend.entities;
 
+import com.HanglyGroup.HanglyBackend.dto.UserCreateDTO;
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -29,7 +30,13 @@ public class User implements UserDetails {
         this.email = email;
         this.password = password;
 
+    }
 
+
+    public User(UserCreateDTO userCreateDTO) {
+        this.name = userCreateDTO.getName();
+        this.email = userCreateDTO.getEmail();
+        this.password = userCreateDTO.getPassword();
     }
 
     public String getName() {

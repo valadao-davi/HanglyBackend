@@ -1,6 +1,7 @@
 package com.HanglyGroup.HanglyBackend.infra;
 
 import com.HanglyGroup.HanglyBackend.entities.User;
+import com.HanglyGroup.HanglyBackend.exceptions.JWTErrorException;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
@@ -15,7 +16,7 @@ import java.time.ZoneOffset;
 @Service
 public class TokenService {
 
-    @Value("${api.security.token.secret}")
+    @Value("12345567")
     private String secret;
 
     public String generateToken(User user){
@@ -27,7 +28,7 @@ public class TokenService {
                     .withExpiresAt(generateExpirationDate())
                     .sign(algorithm);
         }catch (JWTCreationException e) {
-            throw new RuntimeException("Ocurred an error in JWT Process");
+            throw new JWTErrorException();
         }
     }
 
