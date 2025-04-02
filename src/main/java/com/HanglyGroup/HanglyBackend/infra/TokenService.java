@@ -28,7 +28,7 @@ public class TokenService {
                     .withExpiresAt(generateExpirationDate())
                     .sign(algorithm);
         }catch (JWTCreationException e) {
-            System.out.println("Occuredd an error creating token");
+            System.out.println("Occured an error creating token");
             throw new JWTErrorException();
         }
     }
