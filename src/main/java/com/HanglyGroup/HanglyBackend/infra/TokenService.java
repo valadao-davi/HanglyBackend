@@ -16,12 +16,11 @@ import java.time.ZoneOffset;
 @Service
 public class TokenService {
 
-    @Value("12345567")
+    @Value("${api.security.token.secret}")
     private String secret;
 
     public String generateToken(User user){
         try {
-            System.out.println("Generating token for user: " + user.getEmail());
             Algorithm algorithm = Algorithm.HMAC256(secret);
             return JWT.create()
                     .withIssuer("auth-hanglybackend")

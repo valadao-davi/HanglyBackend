@@ -18,7 +18,6 @@ public class AuthenticationController {
 
     @PostMapping(value = "/login")
     public ResponseEntity<LoginResponseDTO> login(@RequestBody @Valid UserLoginDTO userLoginDTO){
-            System.out.println("Chamando service: ");
             String token = authenticationService.login(userLoginDTO);
             return ResponseEntity.ok(new LoginResponseDTO(token));
     }

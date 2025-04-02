@@ -17,7 +17,6 @@ public class AuthenticationService {
 
     @Autowired
     private AuthenticationManager authenticationManager;
-
     @Autowired
     private UserRepository userRepository;
 
@@ -29,8 +28,7 @@ public class AuthenticationService {
 
     public String login(UserLoginDTO userLoginDTO){
         var userNamePassword = new UsernamePasswordAuthenticationToken(userLoginDTO.email(),userLoginDTO.password());
-       // ERRO AQUI
-        var auth = authenticationManager.authenticate(userNamePassword);
+        var auth = this.authenticationManager.authenticate(userNamePassword);
         String token = tokenService.generateToken((User) auth.getPrincipal());
         return token;
 
