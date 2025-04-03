@@ -25,6 +25,7 @@ public class UserService {
     @Transactional
     public UserMinProjection getProfile(){
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        System.out.println("No service: " + userDetails.getUsername());
         String email = userDetails.getUsername();
         return userRepository.getUserProfile(email).orElseThrow(UserNotFoundException::new);
     }
