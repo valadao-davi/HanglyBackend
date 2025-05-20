@@ -43,7 +43,7 @@ public class UserService {
     }
 
     @Transactional
-    public void editUser(UserCreateDTO userEdit, Long userId){
+    public void editUser(User userEdit, Long userId){
         User user = userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
         ModelMapper modelMapper = new ModelMapper();
         modelMapper.getConfiguration().setSkipNullEnabled(true);
@@ -51,6 +51,12 @@ public class UserService {
         userRepository.save(user);
     }
 
+    @Transactional
+    public void rateUser(Long userId, double valueRate){
+        User user = userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
+        user.setRate(valueRate);
+        userRepository.save(user);
+    }
 
     @Transactional
     public void deleteUser(Long userId){

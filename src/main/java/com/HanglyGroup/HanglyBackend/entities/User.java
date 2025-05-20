@@ -2,13 +2,12 @@ package com.HanglyGroup.HanglyBackend.entities;
 
 import com.HanglyGroup.HanglyBackend.dto.UserCreateDTO;
 import jakarta.persistence.*;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Objects;
+import java.time.LocalDate;
+import java.util.*;
 
 @Entity
 @Table(name = "user_tab")
@@ -22,14 +21,19 @@ public class User implements UserDetails {
     private String email;
     private String password;
 
+    @DateTimeFormat(pattern = "dd-MM-yyyy")
+    private LocalDate birthDate;
+    @Column(length = 4000)
+    private String biography;
+    private double rate;
+
     public User(){}
 
-    public User(Long userId, String name, String email, String password){
-        this.userId = userId;
+    public User(String name, String password, LocalDate birthDate, String biography){
         this.name = name;
-        this.email = email;
         this.password = password;
-
+        this.birthDate = birthDate;
+        this.biography = biography;
     }
 
 
@@ -58,6 +62,30 @@ public class User implements UserDetails {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public LocalDate getBirthDate() {
+        return birthDate;
+    }
+
+    public void setBirthDate(LocalDate birthDate) {
+        this.birthDate = birthDate;
+    }
+
+    public String getBiography() {
+        return biography;
+    }
+
+    public void setBiography(String biography) {
+        this.biography = biography;
+    }
+
+    public double getRate() {
+        return rate;
+    }
+
+    public void setRate(double rate) {
+        this.rate = rate;
     }
 
     @Override

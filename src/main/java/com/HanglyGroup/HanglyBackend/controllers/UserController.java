@@ -1,6 +1,6 @@
 package com.HanglyGroup.HanglyBackend.controllers;
 
-import com.HanglyGroup.HanglyBackend.dto.UserCreateDTO;
+import com.HanglyGroup.HanglyBackend.entities.User;
 import com.HanglyGroup.HanglyBackend.projections.UserMinProjection;
 import com.HanglyGroup.HanglyBackend.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,10 +21,16 @@ public class UserController {
     }
 
     @PutMapping
-    public ResponseEntity<String> editUser(@RequestBody UserCreateDTO userCreateDTO){
+    public ResponseEntity<String> editUser(@RequestBody User user){
         UserMinProjection userMinProjection = userService.getProfile();
-        userService.editUser(userCreateDTO, userMinProjection.getUserId());
+        userService.editUser(user, userMinProjection.getUserId());
         return ResponseEntity.ok("User edited.");
+    }
+
+    @PatchMapping(value = "{id}")
+    public ResponseEntity<String> rateUser(@RequestBody double rate, @PathVariable Long id) {
+         userService.rateUser(id, rate);
+         return ResponseEntity.ok("Sucess.");
     }
 
     @DeleteMapping
