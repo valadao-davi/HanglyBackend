@@ -13,4 +13,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     @Query("SELECT u FROM User u WHERE u.email = :email")
     Optional<UserMinProjection> getUserProfile(String email);
+
+
 }

@@ -1,5 +1,6 @@
 package com.HanglyGroup.HanglyBackend.controllers;
 
+import com.HanglyGroup.HanglyBackend.dto.UserEditDTO;
 import com.HanglyGroup.HanglyBackend.entities.User;
 import com.HanglyGroup.HanglyBackend.projections.UserMinProjection;
 import com.HanglyGroup.HanglyBackend.services.UserService;
@@ -21,7 +22,7 @@ public class UserController {
     }
 
     @PutMapping
-    public ResponseEntity<String> editUser(@RequestBody User user){
+    public ResponseEntity<String> editUser(@RequestBody UserEditDTO user){
         UserMinProjection userMinProjection = userService.getProfile();
         userService.editUser(user, userMinProjection.getUserId());
         return ResponseEntity.ok("User edited.");
@@ -29,8 +30,14 @@ public class UserController {
 
     @PatchMapping(value = "{id}")
     public ResponseEntity<String> rateUser(@RequestBody double rate, @PathVariable Long id) {
-         userService.rateUser(id, rate);
-         return ResponseEntity.ok("Sucess.");
+        UserMinProjection userMinProjection = userService.getProfile();
+         boolean result = userService.rateUser(userMinProjection.getUserId(), id, rate);
+         if(result){
+             return ResponseEntity.ok("Sucess.");
+         }else{
+             return ResponseEntity.badRequest().body("User can't rate himself.");
+         }
+
     }
 
     @DeleteMapping

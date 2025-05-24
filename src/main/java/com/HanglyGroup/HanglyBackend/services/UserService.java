@@ -1,7 +1,12 @@
 package com.HanglyGroup.HanglyBackend.services;
 
+import com.HanglyGroup.HanglyBackend.dto.EventEditDTO;
 import com.HanglyGroup.HanglyBackend.dto.UserCreateDTO;
+import com.HanglyGroup.HanglyBackend.dto.UserEditDTO;
+import com.HanglyGroup.HanglyBackend.entities.Address;
+import com.HanglyGroup.HanglyBackend.entities.Event;
 import com.HanglyGroup.HanglyBackend.entities.User;
+import com.HanglyGroup.HanglyBackend.exceptions.EventNotFoundException;
 import com.HanglyGroup.HanglyBackend.exceptions.UserNotFoundException;
 import com.HanglyGroup.HanglyBackend.exceptions.UserRegisteredException;
 import com.HanglyGroup.HanglyBackend.projections.UserMinProjection;
@@ -42,20 +47,26 @@ public class UserService {
         userRepository.saveAndFlush(new User(userCreateDTO));
     }
 
+
     @Transactional
-    public void editUser(User userEdit, Long userId){
-        User user = userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
+    public void editUser(UserEditDTO userEdit,Long userId){
         ModelMapper modelMapper = new ModelMapper();
         modelMapper.getConfiguration().setSkipNullEnabled(true);
-        modelMapper.map(userEdit, user);
-        userRepository.save(user);
+        User oldUser = userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
+        User newUser = new User(userEdit);
+        modelMapper.map(newUser, oldUser);
+        userRepository.saveAndFlush(oldUser);
     }
 
     @Transactional
-    public void rateUser(Long userId, double valueRate){
+    public boolean rateUser(Long userLogged, Long userId, double valueRate){
         User user = userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
+        if(user.getUserId().equals(userLogged)){
+            return false;
+        }
         user.setRate(valueRate);
         userRepository.save(user);
+        return true;
     }
 
     @Transactional

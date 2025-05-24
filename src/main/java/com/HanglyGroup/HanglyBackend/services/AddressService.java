@@ -10,14 +10,32 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class AddressService {
 
     @Autowired
     private AddressRepository addressRepository;
 
+    public Address findAddress(AddressCreateDTO addressCreateDTO){
+        Optional<Long> addressId = addressRepository.findAddressByParams(
+                addressCreateDTO.getCep(),
+                addressCreateDTO.getCity(),
+                addressCreateDTO.getState(),
+                addressCreateDTO.getCountry(),
+                addressCreateDTO.getStreet(),
+                Integer.toString(addressCreateDTO.getNumber()),
+                addressCreateDTO.getDistrict()
+        );
+        if(addressId.isPresent()){
+            return addressRepository.findById(addressId.get()).get();
+        }
+        Address newAddress = new Address(addressCreateDTO);
+        return addressRepository.saveAndFlush(newAddress);
+    }
+
     public void createAddress(AddressCreateDTO addressCreateDTO) {
-         System.out.println(addressCreateDTO.getCity());
          addressRepository.saveAndFlush(new Address(addressCreateDTO));
     }
 

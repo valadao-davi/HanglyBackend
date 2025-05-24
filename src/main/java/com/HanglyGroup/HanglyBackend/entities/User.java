@@ -1,6 +1,7 @@
 package com.HanglyGroup.HanglyBackend.entities;
 
 import com.HanglyGroup.HanglyBackend.dto.UserCreateDTO;
+import com.HanglyGroup.HanglyBackend.dto.UserEditDTO;
 import jakarta.persistence.*;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.GrantedAuthority;
@@ -26,14 +27,25 @@ public class User implements UserDetails {
     @Column(length = 4000)
     private String biography;
     private double rate;
+    @Column(length = 1000)
+    private String imgUrl;
 
     public User(){}
 
-    public User(String name, String password, LocalDate birthDate, String biography){
+    public User(UserEditDTO userEditDTO){
+        this.name = userEditDTO.name();
+        this.password = userEditDTO.password();
+        this.imgUrl = userEditDTO.imgUrl();
+        this.biography = userEditDTO.biography();
+        this.birthDate = userEditDTO.birthDate();
+    }
+
+    public User(String name, String password, LocalDate birthDate, String biography, String imgUrl){
         this.name = name;
         this.password = password;
         this.birthDate = birthDate;
         this.biography = biography;
+        this.imgUrl = imgUrl;
     }
 
 
@@ -41,6 +53,7 @@ public class User implements UserDetails {
         this.name = userCreateDTO.getName();
         this.email = userCreateDTO.getEmail();
         this.password = userCreateDTO.getPassword();
+        this.imgUrl = userCreateDTO.getImgUrl();
     }
 
     public String getName() {
@@ -55,6 +68,13 @@ public class User implements UserDetails {
         return userId;
     }
 
+    public String getImgUrl() {
+        return imgUrl;
+    }
+
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
+    }
 
     public String getEmail() {
         return email;

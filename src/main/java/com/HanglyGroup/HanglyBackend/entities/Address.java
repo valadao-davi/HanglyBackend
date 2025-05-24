@@ -1,6 +1,7 @@
 package com.HanglyGroup.HanglyBackend.entities;
 
 import com.HanglyGroup.HanglyBackend.dto.AddressCreateDTO;
+import com.HanglyGroup.HanglyBackend.dto.EventEditDTO;
 import jakarta.persistence.*;
 
 @Entity
@@ -8,9 +9,9 @@ import jakarta.persistence.*;
 public class Address {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long address_id;
+    private Long addressId;
 
-    private String place;
+    private String street;
     private int number;
     private String district;
     private String city;
@@ -20,14 +21,25 @@ public class Address {
 
     public Address(){}
 
-    public Address(String place, int number, String district, String city, String state, String country, String cep) {
-        this.place = place;
+    public Address(EventEditDTO eventEditDTO){
+        this.cep = eventEditDTO.cep();
+        this.city = eventEditDTO.city();
+        this.state = eventEditDTO.state();
+        this.country = eventEditDTO.country();
+        this.street = eventEditDTO.street();
+        this.number = eventEditDTO.number();
+        this.district = eventEditDTO.district();
+    }
+
+    public Address(String street, int number, String district, String city, String state, String country, String cep) {
+        this.street = street;
         this.number = number;
         this.district = district;
         this.city = city;
         this.state = state;
         this.country = country;
         this.cep = cep;
+
     }
 
     public Address(AddressCreateDTO addressCreateDTO){
@@ -35,14 +47,17 @@ public class Address {
         this.city = addressCreateDTO.getCity();
         this.state = addressCreateDTO.getState();
         this.country = addressCreateDTO.getCountry();
+        this.street = addressCreateDTO.getStreet();
+        this.number = addressCreateDTO.getNumber();
+        this.district = addressCreateDTO.getDistrict();
     }
 
-    public String getPlace() {
-        return place;
+    public String getStreet() {
+        return street;
     }
 
-    public void setPlace(String place) {
-        this.place = place;
+    public void setStreet(String street) {
+        this.street = street;
     }
 
     public int getNumber() {
