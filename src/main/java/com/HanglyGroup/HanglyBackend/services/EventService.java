@@ -38,8 +38,8 @@ public class EventService {
         AddressCreateDTO informedAddress = new AddressCreateDTO(
                 eventCreateDTO.getCep(),
                 eventCreateDTO.getCity(),
-                eventCreateDTO.getState(),
                 eventCreateDTO.getCountry(),
+                eventCreateDTO.getState(),
                 eventCreateDTO.getStreet(),
                 eventCreateDTO.getNumber(),
                 eventCreateDTO.getDistrict()
@@ -48,6 +48,7 @@ public class EventService {
         Optional<User> userFounded = userRepository.findById(eventCreateDTO.getUserId());
         Event event = new Event(eventCreateDTO);
         if(userFounded.isPresent()){
+            System.out.println("caindo aqui");
             event.setUser(userFounded.get());
             event.setAddress(address);
             eventRepository.saveAndFlush(event);
