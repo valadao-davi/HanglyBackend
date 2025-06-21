@@ -35,8 +35,9 @@ public class EventController {
     }
 
     @GetMapping
-    public ResponseEntity<List<EventMinProjection>> getEvents(){
-        return ResponseEntity.ok(eventService.getEvents());
+    public ResponseEntity<List<EventMinProjection>> getEvents(@RequestParam int page,
+                                                              @RequestParam int items){
+        return ResponseEntity.ok(eventService.getEvents(page, items));
     }
 
     @PostMapping

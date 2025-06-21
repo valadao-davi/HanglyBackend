@@ -15,6 +15,7 @@ import com.HanglyGroup.HanglyBackend.repositories.EventRepository;
 import com.HanglyGroup.HanglyBackend.repositories.UserRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
@@ -78,8 +79,8 @@ public class EventService {
         return eventRepository.getDetailsEvent(eventId).orElseThrow(EventNotFoundException::new);
     }
 
-    public List<EventMinProjection> getEvents() {
-        return eventRepository.getEvents();
+    public List<EventMinProjection> getEvents(int page, int items) {
+        return eventRepository.getEvents(PageRequest.of(page, items));
     }
 
     public List<EventMinProjection> getEventsByCategory(String category){
